@@ -14,16 +14,14 @@ header {
 */
 
 body {
+  background-color: #000;
   display: flex;
-
-  /* This centers our sketch horizontally. */
-  justify-content: center;
-
-  /* This centers our sketch vertically. */
-  align-items: center;
+  justify-content: center; /* This centers gameboard horizontally. */
+  align-items: center; /* This centers gameboard vertically. */
+  
 
   /* This displays header h1 on top of gameboard 
   flex-direction: column;
 	*/
-	background-color: #000;
+	
 }
