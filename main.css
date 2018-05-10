@@ -1,0 +1,29 @@
+
+html, body {
+  height: 100%;
+}
+
+/*
+header {
+	position: absolute;
+	top: 5%;
+	margin: 0 auto;
+	font-size: 1.5em;
+
+}
+*/
+
+body {
+  display: flex;
+
+  /* This centers our sketch horizontally. */
+  justify-content: center;
+
+  /* This centers our sketch vertically. */
+  align-items: center;
+
+  /* This displays header h1 on top of gameboard 
+  flex-direction: column;
+	*/
+	background-color: #000;
+}
