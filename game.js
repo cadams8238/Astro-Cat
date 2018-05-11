@@ -1,3 +1,5 @@
+const GRID = 50;
+
 let cat;
 
 function preload() {
@@ -16,7 +18,7 @@ unnecessarily.
 function setup() {
   
  	createBackground();
-	cat = new Cat(100,100,50);
+	cat = new Cat(100,100,GRID);
 
 
 }
@@ -44,6 +46,19 @@ keyPressed()
 
 function keyPressed() {
 
+	if (keyCode === LEFT_ARROW) {
+		cat.move(-1,0);
+	}
+	else if (keyCode === RIGHT_ARROW) {
+		cat.move(1,0);
+	}
+	else if (keyCode === UP_ARROW) {
+		cat.move(-1,0);
+	}
+	else if (keyCode === DOWN_ARROW) {
+		cat.move(1,0);
+	}
+
 }
 
 
@@ -62,9 +77,7 @@ function createBackground() {
 	 	background(0);
 	 	drawOutline();
 	 	drawMilkyWay();
-	 	drawStars();
- 
-  
+	 	drawStars(); 
 
 }
 
@@ -123,35 +136,61 @@ function drawStars() {
 
 
 
-class object {
-
-	constructor(x,y,widthHeight) {
-
-		this.tLeft = x;
-		this.tRight = x + widthHeight;
-		this.bLeft = y;
-		this.bRight = y + widthHeight;
-	}
-
-	intersects(obstacle) {
-		return !(this.left > obstacle.right || this.right < obstacle.left ||
-						 this.right > obstacle.left || this.left < obstacle.right);
-	}
-}
 
 
 
-class Cat extends object {
+
+/*
+---------------------------------------------------------
+<object> creates a very basic framework for any object 
+used in the game. It's reused to create the Cat and 
+obstacles
+---------------------------------------------------------
+*/
+
+
+//CONSTRUCTOR THORWING SOME SORT OF ERROR AND BREAKING PROGRAM!!!
+
+
+// class Object {
+
+// 	constructor(x,y,widthHeight) {
+
+// 		this.left = x;
+// 		this.right = x + widthHeight;
+// 		this.top = y;
+// 		this.bottom = y + widthHeight;
+// 	}
+
+// 	// intersects(obstacle) {
+// 	// 	return !(this.left > obstacle.right || this.right < obstacle.left ||
+// 	// 					 this.top > obstacle.bottom || this.bottom < obstacle.top);
+// 	// }
+// }
+
+
+
+/*
+---------------------------------------------------------
+<Cat> creates...you guessed it, our delightful little
+ protagonist, the cat! It extends all the functionality
+ of the <Object> class and then of course adds it's own
+ unique traits.
+---------------------------------------------------------
+*/
+
+class Cat extends Object {
 	
 
 	show() {
 		fill('white');
-		rect(100, 100, 50, 50);
+		rect(100, 100, GRID, GRID);
 	}
 
 
-	move() {
-
+	move(x,y) {
+		left += x * GRID;
+		top += y * GRID;
 	}
 }
 
