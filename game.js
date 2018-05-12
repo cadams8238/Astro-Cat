@@ -33,6 +33,7 @@ It's responsible for drawing each iteration of the game
 
 function draw() {
 	cat.show();
+	keyPressed();
   
 }
 
@@ -45,6 +46,7 @@ keyPressed()
 */
 
 function keyPressed() {
+	console.log('key pressed!');
 
 	if (keyCode === LEFT_ARROW) {
 		cat.move(-1,0);
@@ -53,10 +55,10 @@ function keyPressed() {
 		cat.move(1,0);
 	}
 	else if (keyCode === UP_ARROW) {
-		cat.move(-1,0);
+		cat.move(0,-1);
 	}
 	else if (keyCode === DOWN_ARROW) {
-		cat.move(1,0);
+		cat.move(0,1);
 	}
 
 }
@@ -73,7 +75,7 @@ all packed neatly in their own functions
 
 function createBackground() {
 
-	 	createCanvas(600, 600);
+	 	createCanvas(650, 650);
 	 	background(0);
 	 	drawOutline();
 	 	drawMilkyWay();
@@ -92,7 +94,7 @@ function drawOutline() {
 	stroke('#EBEBD3');
   strokeWeight(4);
   noFill();	//noFill needed so that the black background will show through
-  rect(0,0,600,600);
+  rect(0,0,650,650);
 
 }
 
@@ -108,7 +110,7 @@ function drawMilkyWay() {
 
 	fill('#1F2223');
   noStroke();
-  rect(2,298,596,300); //values take outer stroke into concideration and don't cover it up, stroke = 2 px (approx)
+  rect(2,323,646,325); //values take outer stroke into consideration and don't cover it up, stroke = 2 px (approx)
 
 }
 
@@ -149,24 +151,22 @@ obstacles
 */
 
 
-//CONSTRUCTOR THORWING SOME SORT OF ERROR AND BREAKING PROGRAM!!!
 
+class GameObject {
 
-// class Object {
+	constructor(x,y,widthHeight) {
 
-// 	constructor(x,y,widthHeight) {
+		this.left = x;
+		this.right = x + widthHeight;
+		this.top = y;
+		this.bottom = y + widthHeight;
+	}
 
-// 		this.left = x;
-// 		this.right = x + widthHeight;
-// 		this.top = y;
-// 		this.bottom = y + widthHeight;
-// 	}
-
-// 	// intersects(obstacle) {
-// 	// 	return !(this.left > obstacle.right || this.right < obstacle.left ||
-// 	// 					 this.top > obstacle.bottom || this.bottom < obstacle.top);
-// 	// }
-// }
+	// intersects(obstacle) {
+	// 	return !(this.left > obstacle.right || this.right < obstacle.left ||
+	// 					 this.top > obstacle.bottom || this.bottom < obstacle.top);
+	// }
+}
 
 
 
@@ -179,7 +179,7 @@ obstacles
 ---------------------------------------------------------
 */
 
-class Cat extends Object {
+class Cat extends GameObject {
 	
 
 	show() {
@@ -189,8 +189,8 @@ class Cat extends Object {
 
 
 	move(x,y) {
-		left += x * GRID;
-		top += y * GRID;
+		this.left += x * GRID;
+		this.top += y * GRID;
 	}
 }
 
