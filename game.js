@@ -182,11 +182,6 @@ class GameObject {
 class Cat extends GameObject {
 	
 
-	constructor(x,y,width,height) {
-		super();
-	}
-
-
 	show() {
 		fill('white');
 		rect(this.left, this.right, this.top, this.bottom);
