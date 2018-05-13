@@ -17,8 +17,9 @@ unnecessarily.
 
 function setup() {
   
+  createCanvas(650, 650);
  	createBackground();
-	cat = new Cat(100,100,GRID);
+	cat = new Cat(100,100,GRID,GRID);
 
 
 }
@@ -46,7 +47,7 @@ keyPressed()
 */
 
 function keyPressed() {
-	console.log('key pressed!');
+	//console.log('key pressed!');
 
 	if (keyCode === LEFT_ARROW) {
 		cat.move(-1,0);
@@ -75,7 +76,6 @@ all packed neatly in their own functions
 
 function createBackground() {
 
-	 	createCanvas(650, 650);
 	 	background(0);
 	 	drawOutline();
 	 	drawMilkyWay();
@@ -154,12 +154,12 @@ obstacles
 
 class GameObject {
 
-	constructor(x,y,widthHeight) {
+	constructor(x,y,width,height) {
 
 		this.left = x;
-		this.right = x + widthHeight;
+		this.right = x + width;
 		this.top = y;
-		this.bottom = y + widthHeight;
+		this.bottom = y + height;
 	}
 
 	// intersects(obstacle) {
@@ -182,9 +182,15 @@ class GameObject {
 class Cat extends GameObject {
 	
 
+	constructor(x,y,width,height) {
+		super();
+	}
+
+
 	show() {
 		fill('white');
-		rect(100, 100, GRID, GRID);
+		rect(this.left, this.right, this.top, this.bottom);
+
 	}
 
 
