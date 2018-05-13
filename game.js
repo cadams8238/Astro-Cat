@@ -19,7 +19,7 @@ function setup() {
   
   createCanvas(650, 650);
  	createBackground();
-	cat = new Cat(275,600,50,50);
+	cat = new Cat(275, 600, GRID, GRID);
 
 
 }
@@ -156,8 +156,8 @@ class GameObject {
 
 		this.x = x;
 		this.y = y;
-		this.w = x + w;
-		this.h = y + h;
+		this.w = w;
+		this.h = h;
 	}
 
 	// intersects(obstacle) {
@@ -188,8 +188,8 @@ class Cat extends GameObject {
 
 
 	move(x,y) {
-		this.x += x;
-		this.y += y;
+		this.x += x * GRID;
+		this.y += y * GRID;
 	}
 
 }
