@@ -19,7 +19,7 @@ function setup() {
   
   createCanvas(650, 650);
  	createBackground();
-	cat = new Cat(width/2-GRID,height-GRID,GRID,GRID);
+	cat = new Cat(275,600,50,50);
 
 
 }
@@ -34,8 +34,6 @@ It's responsible for drawing each iteration of the game
 
 function draw() {
 	cat.show();
-	keyPressed();
-  
 }
 
 
@@ -157,8 +155,8 @@ class GameObject {
 	constructor(x,y,w,h) {
 
 		this.x = x;
-		this.y = x + w;
-		this.w = y;
+		this.y = y;
+		this.w = x + w;
 		this.h = y + h;
 	}
 
@@ -193,7 +191,7 @@ class Cat extends GameObject {
 		this.x += x;
 		this.y += y;
 	}
-	
+
 }
 
 
