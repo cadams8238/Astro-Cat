@@ -122,17 +122,31 @@ drawStars() creates the stars in the game
 
 function drawStars() {
 
-	for (let i = 0; i < 150; i++) {
+	// const stars = getStarsData();
+	// console.log(stars);
 
-  	let x = random(1,width),
-  			y = random(1,height),
-  			diameter = random(1,3);
+
+	// for (let i = 0; i < stars.length; i++) {
+
+		for (let i = 0; i < 150; i++) {
+			let x = random(1,width),
+	  			y = random(1,height),
+	  			diameter = random(1,3);
 
   	fill('#EBEBD3');
   	noStroke();
-  	ellipse(x,y,diameter);
+  	ellipse(x, y, diameter);
+
+  	// ellipse(stars[i].x, stars[i].y, stars[i].diameter);
   }
 }
+
+
+
+// function getStarsData() {
+
+// 	return new Stars();
+// }
 
 
 
@@ -188,38 +202,44 @@ class Cat extends GameObject {
 
 
 	move(x,y) {
-		if(this.x <= GRID/2) 					this.x = GRID/2;
-		if(this.x >= width-GRID/2) 		this.x = width-GRID/2;
-		if(this.y <= GRID/2)					this.y = GRID/2;
-		if(this.y >= height-GRID/2) 	this.y = height-GRID/2;
+		// if(this.x <= GRID/2) 					this.x = GRID/2;
+		// if(this.x >= width-GRID/2) 		this.x = width-GRID/2;
+		// if(this.y <= GRID/2)					this.y = GRID/2;
+		// if(this.y >= height-GRID/2) 	this.y = height-GRID/2;
 
-		else {
+		// else {
 			this.x += x * GRID;
 			this.y += y * GRID;
 		}
 		
 
-	}
-
 }
 
 
 
 
 
-class Stars {
+// class Stars {
 
-	constructor() {
-		
-		for (let i = 0; i < 150; i++) {
-			let x = random(1,width),
-	  			y = random(1,height),
-	  			diameter = random(1,3);
-	  }
-	}
+// 	constructor() {
+// 		this.arrayOfStars = {};
 
-
-}
+// 		for (let i = 0; i < 150; i++) {
+// 			let x = random(1,width),
+// 	  			y = random(1,height),
+// 	  			diameter = random(1,3);
+	  			
+// 	  	this.arrayOfStars = this.arrayOfStars.push(
+// 	  		{ 
+// 	  			x: x,
+// 	  			y: y,
+// 	  			diameter: diameter
+// 	  		}
+// 	  		);
+// 	  }
+// 	  console.log(arrayOfStars);
+// 	}
+// }
 
 
 
