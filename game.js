@@ -199,6 +199,16 @@ class Cat extends GameObject {
 
 
 
+class Stars {
+
+
+	
+}
+
+
+
+
+
 
 
 
