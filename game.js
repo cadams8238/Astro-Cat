@@ -18,7 +18,7 @@ unnecessarily.
 function setup() {
   
   createCanvas(650, 650);
-	cat = new Cat(275, 600, GRID, GRID);
+	cat = new Cat(width/2-GRID, height-GRID, GRID, GRID);
 
 
 }
@@ -188,8 +188,16 @@ class Cat extends GameObject {
 
 
 	move(x,y) {
-		this.x += x * GRID;
-		this.y += y * GRID;
+		if(this.x <= GRID/2) 					this.x = GRID/2;
+		if(this.x >= width-GRID/2) 		this.x = width-GRID/2;
+		if(this.y <= GRID/2)					this.y = GRID/2;
+		if(this.y >= height-GRID/2) 	this.y = height-GRID/2;
+
+		else {
+			this.x += x * GRID;
+			this.y += y * GRID;
+		}
+		
 
 	}
 
@@ -201,8 +209,16 @@ class Cat extends GameObject {
 
 class Stars {
 
+	constructor() {
+		
+		for (let i = 0; i < 150; i++) {
+			let x = random(1,width),
+	  			y = random(1,height),
+	  			diameter = random(1,3);
+	  }
+	}
 
-	
+
 }
 
 
