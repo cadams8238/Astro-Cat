@@ -1,12 +1,7 @@
 const GRID = 50;
 
 let cat;
-
-
-
-function preload() {
-
-}
+let stars;
 
 
 /*
@@ -21,9 +16,7 @@ function setup() {
   
   createCanvas(650, 650);
 	cat = new Cat(width/2-GRID, height-GRID, GRID, GRID);
-	const data = getStarsData();
-	console.log(data.arrayOfStars);
-
+	stars = new Stars();
 
 }
 
@@ -52,16 +45,16 @@ function keyPressed() {
 	//console.log('key pressed!');
 
 	if (keyCode === LEFT_ARROW) {
-		cat.move(-1,0);
+		cat.move(-1,0,'left');
 	}
 	else if (keyCode === RIGHT_ARROW) {
-		cat.move(1,0);
+		cat.move(1,0,'right');
 	}
 	else if (keyCode === UP_ARROW) {
-		cat.move(0,-1);
+		cat.move(0,-1,'up');
 	}
 	else if (keyCode === DOWN_ARROW) {
-		cat.move(0,1);
+		cat.move(0,1,'down');
 	}
 
 }
@@ -81,7 +74,7 @@ function createBackground() {
 	 	background(0);
 	 	drawOutline();
 	 	drawMilkyWay();
-		drawStars(); 
+		stars.draw(); 
 
 
 }
@@ -118,40 +111,6 @@ function drawMilkyWay() {
   rect(border, 300, width-border*2, 348); //values take outer stroke into consideration and don't cover it up, stroke = 2 px (approx)
 
 }
-
-
-
-/*
----------------------------------------------------------
-drawStars() creates the stars in the game
----------------------------------------------------------
-*/
-
-function drawStars() {
-
-
-	// const stars = new Stars();
-	// console.log(stars);
-	
-
-	// for (let i = 0; i < stars.length; i++) {
-
-  	fill('#EBEBD3');
-  	noStroke();
-  	// ellipse(stars[0].x, stars[0].y, stars[0].diameter);
-  	// console.log(stars.arrayOfStars[0]);
-  // }
-}
-
-
-
-function getStarsData() {
-
-	return new Stars();
-}
-
-
-
 
 
 
@@ -203,16 +162,17 @@ class Cat extends GameObject {
 	}
 
 
-	move(x,y) {
-		// if(this.x <= GRID/2) 					this.x = GRID/2;
-		// if(this.x >= width-GRID/2) 		this.x = width-GRID/2;
-		// if(this.y <= GRID/2)					this.y = GRID/2;
-		// if(this.y >= height-GRID/2) 	this.y = height-GRID/2;
+	move(x,y, directionKey) {
+		if(this.x <= GRID/2 && directionKey === 'left') 									this.x = GRID/2;
+		else if(this.x >= width-GRID/2-GRID && directionKey === 'right') 	this.x = width-GRID/2-GRID;
+		else if(this.y <= 0 && directionKey === 'up')											this.y = 0;
+		else if(this.y >= height-GRID && directionKey === 'down')					this.y = height-GRID;
 
-		// else {
+		else {
 			this.x += x * GRID;
 			this.y += y * GRID;
 		}
+	}
 		
 
 }
@@ -224,22 +184,25 @@ class Cat extends GameObject {
 class Stars {
 
 	constructor() {
-		this.arrayOfStars = [];
+  	this.starData = [];
 
 		for (let i = 0; i < 150; i++) {
 			let x = random(1,width),
 	  			y = random(1,height),
 	  			diameter = random(1,3);
 	  			
-	  	this.arrayOfStars.push(
-	  		{ 
-	  			x: x,
-	  			y: y,
-	  			diameter: diameter
-	  		}
-	  		);
+	  	this.starData.push({x: x, y: y, diameter: diameter});
+  	}
+  }
+
+
+	draw() {
+		for (let i = 0; i < this.starData.length; i++) {
+
+	  	fill('#EBEBD3');
+	  	noStroke();
+	  	ellipse(this.starData[i].x, this.starData[i].y, this.starData[i].diameter);
 	  }
-	  //console.log(this.arrayOfStars);
 	}
 }
 
