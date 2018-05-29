@@ -2,6 +2,8 @@ const GRID = 50;
 
 let cat;
 
+
+
 function preload() {
 
 }
@@ -19,6 +21,8 @@ function setup() {
   
   createCanvas(650, 650);
 	cat = new Cat(width/2-GRID, height-GRID, GRID, GRID);
+	const data = getStarsData();
+	console.log(data.arrayOfStars);
 
 
 }
@@ -77,7 +81,8 @@ function createBackground() {
 	 	background(0);
 	 	drawOutline();
 	 	drawMilkyWay();
-	 	drawStars(); 
+		drawStars(); 
+
 
 }
 
@@ -92,7 +97,7 @@ function drawOutline() {
 	stroke('#EBEBD3');
   strokeWeight(4);
   noFill();	//noFill needed so that the black background will show through
-  rect(0,0,650,650);
+  rect(0,0,width,height);
 
 }
 
@@ -106,9 +111,11 @@ bottom of gameboard
 
 function drawMilkyWay() {
 
+	const border = 2;
+
 	fill('#1F2223');
   noStroke();
-  rect(2,323,646,325); //values take outer stroke into consideration and don't cover it up, stroke = 2 px (approx)
+  rect(border, 300, width-border*2, 348); //values take outer stroke into consideration and don't cover it up, stroke = 2 px (approx)
 
 }
 
@@ -122,31 +129,26 @@ drawStars() creates the stars in the game
 
 function drawStars() {
 
-	// const stars = getStarsData();
-	// console.log(stars);
 
+	// const stars = new Stars();
+	// console.log(stars);
+	
 
 	// for (let i = 0; i < stars.length; i++) {
 
-		for (let i = 0; i < 150; i++) {
-			let x = random(1,width),
-	  			y = random(1,height),
-	  			diameter = random(1,3);
-
   	fill('#EBEBD3');
   	noStroke();
-  	ellipse(x, y, diameter);
-
-  	// ellipse(stars[i].x, stars[i].y, stars[i].diameter);
-  }
+  	// ellipse(stars[0].x, stars[0].y, stars[0].diameter);
+  	// console.log(stars.arrayOfStars[0]);
+  // }
 }
 
 
 
-// function getStarsData() {
+function getStarsData() {
 
-// 	return new Stars();
-// }
+	return new Stars();
+}
 
 
 
@@ -219,27 +221,27 @@ class Cat extends GameObject {
 
 
 
-// class Stars {
+class Stars {
 
-// 	constructor() {
-// 		this.arrayOfStars = {};
+	constructor() {
+		this.arrayOfStars = [];
 
-// 		for (let i = 0; i < 150; i++) {
-// 			let x = random(1,width),
-// 	  			y = random(1,height),
-// 	  			diameter = random(1,3);
+		for (let i = 0; i < 150; i++) {
+			let x = random(1,width),
+	  			y = random(1,height),
+	  			diameter = random(1,3);
 	  			
-// 	  	this.arrayOfStars = this.arrayOfStars.push(
-// 	  		{ 
-// 	  			x: x,
-// 	  			y: y,
-// 	  			diameter: diameter
-// 	  		}
-// 	  		);
-// 	  }
-// 	  console.log(arrayOfStars);
-// 	}
-// }
+	  	this.arrayOfStars.push(
+	  		{ 
+	  			x: x,
+	  			y: y,
+	  			diameter: diameter
+	  		}
+	  		);
+	  }
+	  //console.log(this.arrayOfStars);
+	}
+}
 
 
 
