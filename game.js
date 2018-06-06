@@ -2,6 +2,7 @@ const GRID = 50;
 
 let cat;
 let stars;
+let obstacles;
 
 
 /*
@@ -14,10 +15,10 @@ unnecessarily.
 
 function setup() {
   
-  createCanvas(650, 650);
+ createCanvas(650, 650);
 	cat = new Cat(width/2-GRID, height-GRID, GRID, GRID);
 	stars = new Stars();
-
+	obstacles = new Obstacle(0, height-GRID*2, GRID*2, GRID, 2);
 }
 
 
@@ -31,6 +32,8 @@ It's responsible for drawing each iteration of the game
 function draw() {
 	createBackground();
 	cat.show();
+	obstacles.show();
+	obstacles.move();
 }
 
 
@@ -175,6 +178,33 @@ class Cat extends GameObject {
 	}
 		
 
+}
+
+
+class Obstacle extends GameObject {
+
+	constructor(x,y,w,h,speed) {
+		super(x,y,w,h); 
+		this.speed = speed;
+	}
+	
+	
+
+	show() {
+		fill('grey');
+		rect(this.x, this.y, this.w, this.h);
+	}
+
+	move() {
+
+		if(this.x > width) {
+			this.x = -(GRID*2);	//just an offset when car goes off the gameboard
+		}
+
+		this.x += this.speed;
+
+
+	}
 }
 
 
