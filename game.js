@@ -2,7 +2,8 @@ const GRID = 50;
 
 let cat;
 let stars;
-let obstacles;
+// let obstacles;
+let row;
 
 
 /*
@@ -18,7 +19,10 @@ function setup() {
  createCanvas(650, 650);
 	cat = new Cat(width/2-GRID, height-GRID, GRID, GRID);
 	stars = new Stars();
-	obstacles = new Obstacle(0, height-GRID*2, GRID*2, GRID, 2);
+	// obstacles = new Obstacle(0, height-GRID*2, GRID*2, GRID, 2);
+
+	//Row(verticalPosition, numOfObstacles, speed, spacingBetween, widthOfObject)
+	row = new Row(height-GRID*2, 2, 2, 200, GRID*2);
 }
 
 
@@ -32,8 +36,10 @@ It's responsible for drawing each iteration of the game
 function draw() {
 	createBackground();
 	cat.show();
-	obstacles.show();
-	obstacles.move();
+	// obstacles.show();
+	// obstacles.move();
+	row.show();
+	row.move();
 }
 
 
@@ -131,7 +137,6 @@ obstacles
 class GameObject {
 
 	constructor(x,y,w,h) {
-
 		this.x = x;
 		this.y = y;
 		this.w = w;
@@ -156,14 +161,12 @@ class GameObject {
 */
 
 class Cat extends GameObject {
-	
 
 	show() {
 		fill('white');
 		rect(this.x, this.y, this.w, this.h);
 
 	}
-
 
 	move(x,y, directionKey) {
 		if(this.x <= GRID/2 && directionKey === 'left') 									this.x = GRID/2;
@@ -176,19 +179,15 @@ class Cat extends GameObject {
 			this.y += y * GRID;
 		}
 	}
-		
-
 }
 
 
-class Obstacle extends GameObject {
+class Obstacle extends GameObject{
 
 	constructor(x,y,w,h,speed) {
 		super(x,y,w,h); 
 		this.speed = speed;
 	}
-	
-	
 
 	show() {
 		fill('grey');
@@ -196,15 +195,49 @@ class Obstacle extends GameObject {
 	}
 
 	move() {
-
 		if(this.x > width) {
 			this.x = -(GRID*2);	//just an offset when car goes off the gameboard
 		}
 
 		this.x += this.speed;
-
-
 	}
+}
+
+
+
+
+class Row {
+
+	constructor(verticalPosition, numOfObstacles, speed, spacingBetween, widthOfObject) {
+		this.position = verticalPosition;
+		this.numOfObstacles = numOfObstacles;
+		this.speed = speed;
+		this.spacing = spacingBetween;
+		this.objWidth = widthOfObject;
+
+		this.obstaclesInRow = [];
+
+		for(let i = 0; i < numOfObstacles; i++) {
+			const x = i * this.spacing;
+			this.obstaclesInRow.push(new Obstacle(x,this.position, this.objWidth, GRID, this.speed));
+		}
+		console.log(this.obstaclesInRow);
+	}
+
+	show() {
+		for(let i = 0; i < this.obstaclesInRow.length; i++) {
+			this.obstaclesInRow[i].show();
+		}
+	}
+
+	move() {
+		for(let i = 0; i < this.obstaclesInRow.length; i++) {
+			this.obstaclesInRow[i].move();
+		}
+	}
+
+
+
 }
 
 
