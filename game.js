@@ -3,7 +3,7 @@ const GRID = 50;
 let cat;
 let stars;
 // let obstacles;
-let row;
+let rows = [];
 
 
 /*
@@ -22,7 +22,21 @@ function setup() {
 	// obstacles = new Obstacle(0, height-GRID*2, GRID*2, GRID, 2);
 
 	//Row(verticalPosition, numOfObstacles, speed, spacingBetween, widthOfObject)
-	row = new Row(height-GRID*2, 2, 2, 200, GRID*2);
+	for(let i = 2; i < height/GRID; i++) {
+		const yPosition = height-GRID*i;
+
+		// //free lane
+		// if(i === 7) {
+		// }
+		//small meteors
+		if(i < 8 && i % 2 === 0) {	
+			rows.push(new Row(yPosition, 3, 2, 200, GRID));
+		}
+		//wide shooting stars and rockets
+		else if(i) {
+			rows.push(new Row(yPosition, 2, 1.5, 350, GRID*2));
+		}
+	}
 }
 
 
@@ -38,8 +52,12 @@ function draw() {
 	cat.show();
 	// obstacles.show();
 	// obstacles.move();
-	row.show();
-	row.move();
+	for(let i = 0; i < height/GRID-2; i++) {
+		rows[i].show();
+		rows[i].move();
+	}
+	// row.show();
+	// row.move();
 }
 
 
@@ -187,6 +205,7 @@ class Obstacle extends GameObject{
 	constructor(x,y,w,h,speed) {
 		super(x,y,w,h); 
 		this.speed = speed;
+		// this.direction = direction;
 	}
 
 	show() {
@@ -195,11 +214,19 @@ class Obstacle extends GameObject{
 	}
 
 	move() {
-		if(this.x > width) {
-			this.x = -(GRID*2);	//just an offset when car goes off the gameboard
-		}
-
-		this.x += this.speed;
+		// if(this.direction === 1) {
+			if(this.x > width) {
+				this.x = -(GRID*2);	//just an offset when car goes off the gameboard
+			}
+			this.x += this.speed;
+		// }
+		// else if(this.direction === -1) {
+		// 	if(this.x < 0) {
+		// 		this.x = width+GRID*2;
+		// 	}
+		// 	this.x -= this.speed;
+		// }
+		
 	}
 }
 
@@ -212,6 +239,7 @@ class Row {
 		this.position = verticalPosition;
 		this.numOfObstacles = numOfObstacles;
 		this.speed = speed;
+		// this.direction = direction;
 		this.spacing = spacingBetween;
 		this.objWidth = widthOfObject;
 
@@ -221,7 +249,6 @@ class Row {
 			const x = i * this.spacing;
 			this.obstaclesInRow.push(new Obstacle(x,this.position, this.objWidth, GRID, this.speed));
 		}
-		console.log(this.obstaclesInRow);
 	}
 
 	show() {
