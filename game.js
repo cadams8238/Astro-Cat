@@ -5,11 +5,6 @@ let stars;
 let lowerRows = [];
 let upperRows = [];
 
-
-function randomNumInRange(min, max) {
-	return Math.random() * (max - min) + min;
-}
-
 /*
 ---------------------------------------------------------
 setup() only executes once. Elements such as the back-
@@ -24,18 +19,19 @@ function setup() {
 	cat = new Cat(width/2-GRID, height-GRID, GRID, GRID);
 	stars = new Stars();
 
-	//Row(verticalPosition, numOfObstacles, speed, spacingBetween, widthOfObject)
+	//Row(verticalPosition, numOfObstacles, speed, spacingBetween, widthOfObject, direction)
 	
 	//lower half obstacles
 	for(let i = 2; i < height/GRID/2; i++) {
 		const yPosition = height-GRID*i;
 		const speed = randomNumInRange(1, 3.5);
 		const spacingBetween = randomNumInRange(200, 400);
+		const direction = randomDirection(0,1);
 
 		if(i % 2 === 0) {
-			lowerRows.push(new Row(yPosition, 3, speed, spacingBetween, GRID));
+			lowerRows.push(new Row(yPosition, 3, speed, spacingBetween, GRID, direction));
 		} else {
-			lowerRows.push(new Row(yPosition, 2, speed, spacingBetween, GRID*2));
+			lowerRows.push(new Row(yPosition, 2, speed, spacingBetween, GRID*2, direction));
 		}
 	}
 
@@ -44,11 +40,14 @@ function setup() {
 		const yPosition = height-GRID*i;
 		const speed = randomNumInRange(1, 3);
 		const spacingBetween = randomNumInRange(200, 400);
+		const direction = randomDirection(0,1);
 
-		upperRows.push(new Row(yPosition, 2, speed, spacingBetween, GRID*2));
+		if(i % 2 === 0) {
+			upperRows.push(new Row(yPosition, 2, speed, spacingBetween, GRID*2, 1));
+		}
+		upperRows.push(new Row(yPosition, 2, speed, spacingBetween, GRID*2, direction));
 	}
 }
-
 
 /*
 ---------------------------------------------------------
@@ -69,13 +68,7 @@ function draw() {
 		row.show();
 		row.move();
 	});
-	// for(let i = 0; i < upperRows.length; i++) {
-	// 	rows[i].show();
-	// 	rows[i].move();
-	// }
 }
-
-
 
 /*
 ---------------------------------------------------------
@@ -100,7 +93,6 @@ function keyPressed() {
 	}
 
 }
-
 
 /*
 ---------------------------------------------------------
@@ -136,7 +128,6 @@ function drawOutline() {
 
 }
 
-
 /*
 ---------------------------------------------------------
 drawMilkyWay() creates "Milky way", lighter black box at 
@@ -154,9 +145,6 @@ function drawMilkyWay() {
 
 }
 
-
-
-
 /*
 ---------------------------------------------------------
 <object> creates a very basic framework for any object 
@@ -164,8 +152,6 @@ used in the game. It's reused to create the Cat and
 obstacles
 ---------------------------------------------------------
 */
-
-
 
 class GameObject {
 
@@ -181,8 +167,6 @@ class GameObject {
 	// 					 this.top > obstacle.bottom || this.bottom < obstacle.top);
 	// }
 }
-
-
 
 /*
 ---------------------------------------------------------
@@ -217,10 +201,14 @@ class Cat extends GameObject {
 
 class Obstacle extends GameObject{
 
-	constructor(x,y,w,h,speed) {
+	constructor(x,y,w,h,speed,direction) {
 		super(x,y,w,h); 
 		this.speed = speed;
-		// this.direction = direction;
+		this.direction = direction;
+
+		if(direction === 1) {
+			this.x = width;
+		} 
 	}
 
 	show() {
@@ -229,18 +217,18 @@ class Obstacle extends GameObject{
 	}
 
 	move() {
-		// if(this.direction === 1) {
+		if(this.direction === 1) {
 			if(this.x > width) {
 				this.x = -(GRID*2);	//just an offset when car goes off the gameboard
 			}
 			this.x += this.speed;
-		// }
-		// else if(this.direction === -1) {
-		// 	if(this.x < 0) {
-		// 		this.x = width+GRID*2;
-		// 	}
-		// 	this.x -= this.speed;
-		// }
+		}
+		else {
+			if(this.x < -this.w) {
+				this.x = width+GRID*2;
+			}
+			this.x -= this.speed;
+		}
 		
 	}
 }
@@ -250,19 +238,20 @@ class Obstacle extends GameObject{
 
 class Row {
 
-	constructor(verticalPosition, numOfObstacles, speed, spacingBetween, widthOfObject) {
+	constructor(verticalPosition, numOfObstacles, speed, spacingBetween, widthOfObject, direction) {
 		this.position = verticalPosition;
 		this.numOfObstacles = numOfObstacles;
 		this.speed = speed;
-		// this.direction = direction;
 		this.spacing = spacingBetween;
 		this.objWidth = widthOfObject;
+		this.direction = direction;
+
 
 		this.obstaclesInRow = [];
 
 		for(let i = 0; i < numOfObstacles; i++) {
 			const x = i * this.spacing;
-			this.obstaclesInRow.push(new Obstacle(x,this.position, this.objWidth, GRID, this.speed));
+			this.obstaclesInRow.push(new Obstacle(x, this.position, this.objWidth, GRID, this.speed, this.direction));
 		}
 	}
 
@@ -309,6 +298,16 @@ class Stars {
 	  	ellipse(this.starData[i].x, this.starData[i].y, this.starData[i].diameter);
 	  }
 	}
+}
+
+
+
+function randomNumInRange(min, max) {
+	return Math.random() * (max - min) + min;
+}
+
+function randomDirection() {
+	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 
