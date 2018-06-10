@@ -26,12 +26,12 @@ function setup() {
 		const yPosition = height-GRID*i;
 		const speed = randomNumInRange(1, 3.5);
 		const spacingBetween = randomNumInRange(200, 400);
-		const direction = randomDirection(0,1);
 
 		if(i % 2 === 0) {
-			lowerRows.push(new Row(yPosition, 3, speed, spacingBetween, GRID, direction));
+			//only drawing one obstacle per row
+			lowerRows.push(new Row(yPosition, 3, speed, spacingBetween, GRID, 1));
 		} else {
-			lowerRows.push(new Row(yPosition, 2, speed, spacingBetween, GRID*2, direction));
+			lowerRows.push(new Row(yPosition, 2, speed, spacingBetween, GRID*2, 0));
 		}
 	}
 
@@ -40,12 +40,13 @@ function setup() {
 		const yPosition = height-GRID*i;
 		const speed = randomNumInRange(1, 3);
 		const spacingBetween = randomNumInRange(200, 400);
-		const direction = randomDirection(0,1);
 
 		if(i % 2 === 0) {
+			//only drawing one obstacle per row
 			upperRows.push(new Row(yPosition, 2, speed, spacingBetween, GRID*2, 1));
+		} else {
+			upperRows.push(new Row(yPosition, 2, speed, spacingBetween, GRID*2, 0));
 		}
-		upperRows.push(new Row(yPosition, 2, speed, spacingBetween, GRID*2, direction));
 	}
 }
 
@@ -306,9 +307,6 @@ function randomNumInRange(min, max) {
 	return Math.random() * (max - min) + min;
 }
 
-function randomDirection() {
-	return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
 
 
