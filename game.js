@@ -2,9 +2,13 @@ const GRID = 50;
 
 let cat;
 let stars;
-// let obstacles;
-let rows = [];
+let lowerRows = [];
+let upperRows = [];
 
+
+function randomNumInRange(min, max) {
+	return Math.random() * (max - min) + min;
+}
 
 /*
 ---------------------------------------------------------
@@ -19,23 +23,29 @@ function setup() {
  createCanvas(650, 650);
 	cat = new Cat(width/2-GRID, height-GRID, GRID, GRID);
 	stars = new Stars();
-	// obstacles = new Obstacle(0, height-GRID*2, GRID*2, GRID, 2);
 
 	//Row(verticalPosition, numOfObstacles, speed, spacingBetween, widthOfObject)
-	for(let i = 2; i < height/GRID; i++) {
+	
+	//lower half obstacles
+	for(let i = 2; i < height/GRID/2; i++) {
 		const yPosition = height-GRID*i;
+		const speed = randomNumInRange(1, 3.5);
+		const spacingBetween = randomNumInRange(200, 400);
 
-		// //free lane
-		// if(i === 7) {
-		// }
-		//small meteors
-		if(i < 8 && i % 2 === 0) {	
-			rows.push(new Row(yPosition, 3, 2, 200, GRID));
+		if(i % 2 === 0) {
+			lowerRows.push(new Row(yPosition, 3, speed, spacingBetween, GRID));
+		} else {
+			lowerRows.push(new Row(yPosition, 2, speed, spacingBetween, GRID*2));
 		}
-		//wide shooting stars and rockets
-		else if(i) {
-			rows.push(new Row(yPosition, 2, 1.5, 350, GRID*2));
-		}
+	}
+
+	//upper half obstacles
+	for(let i = Math.floor(height/GRID/2+2); i < height/GRID; i++) {
+		const yPosition = height-GRID*i;
+		const speed = randomNumInRange(1, 3);
+		const spacingBetween = randomNumInRange(200, 400);
+
+		upperRows.push(new Row(yPosition, 2, speed, spacingBetween, GRID*2));
 	}
 }
 
@@ -50,14 +60,19 @@ It's responsible for drawing each iteration of the game
 function draw() {
 	createBackground();
 	cat.show();
-	// obstacles.show();
-	// obstacles.move();
-	for(let i = 0; i < height/GRID-2; i++) {
-		rows[i].show();
-		rows[i].move();
-	}
-	// row.show();
-	// row.move();
+	upperRows.forEach(row => {
+		row.show();
+		row.move();
+	});
+
+	lowerRows.forEach(row => {
+		row.show();
+		row.move();
+	});
+	// for(let i = 0; i < upperRows.length; i++) {
+	// 	rows[i].show();
+	// 	rows[i].move();
+	// }
 }
 
 
